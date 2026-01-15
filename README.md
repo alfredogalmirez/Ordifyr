@@ -1,3 +1,6 @@
+# Ordifyr
+Ordifyr is a full-stack e-commerce web application built with Laravel that focuses on real-world order processing workflows — from shopping cart and checkout to payment handling, fulfillment, and delivery tracking. Unlike basic shopping cart systems, Ordifyr emphasizes a complete order lifecycle pipeline used in real online stores.
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
