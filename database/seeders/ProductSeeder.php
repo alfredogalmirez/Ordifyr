@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Products;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        Products::create([
+        Product::create([
             'name' => 'Black Hoodie',
             'slug' => 'black-hoodie',
             'price_cents' => 19900,
@@ -23,7 +23,7 @@ class ProductSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        Products::create(
+        Product::create(
             [
                 'name' => 'Blue Denim Jacket',
                 'slug' => 'blue-denim-jacket',
@@ -35,7 +35,7 @@ class ProductSeeder extends Seeder
             ]
         );
 
-        Products::create(
+        Product::create(
             [
                 'name' => 'Graphic T-Shirt',
                 'slug' => 'graphic-tshirt',
@@ -44,9 +44,10 @@ class ProductSeeder extends Seeder
                 'description' => 'Casual graphic t-shirt with a bold print. Limited stock available.',
                 'image' => 'tshirt-graphic.png',
                 'is_active' => true,
-            ]);
+            ]
+        );
 
-            Products::create(
+        Product::create(
             [
                 'name' => 'Leather Wallet',
                 'slug' => 'leather-wallet',
@@ -55,9 +56,10 @@ class ProductSeeder extends Seeder
                 'description' => 'Slim leather wallet crafted from premium materials for daily use.',
                 'image' => 'wallet-leather.png',
                 'is_active' => true,
-            ]);
+            ]
+        );
 
-            Products::create(
+        Product::create(
             [
                 'name' => 'Stainless Steel Water Bottle',
                 'slug' => 'stainless-water-bottle',
@@ -66,6 +68,7 @@ class ProductSeeder extends Seeder
                 'description' => 'Eco-friendly stainless steel bottle that keeps drinks cold or hot for hours.',
                 'image' => 'water-bottle.png',
                 'is_active' => true,
-            ]);
+            ]
+        );
     }
 }
