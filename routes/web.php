@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 
@@ -21,5 +23,9 @@ Route::middleware('auth')->group(function () {
 // Products Route
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{slug}', [ProductController::class, 'show']);
+
+// Cart Route
+Route::get('/cart', [CartController::class, 'show'])->middleware('auth')->name('cart.show');
+Route::post('/cart/items', [CartItemController::class, 'store'])->middleware('auth');
 
 require __DIR__.'/auth.php';
