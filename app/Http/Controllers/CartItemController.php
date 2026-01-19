@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartItemController extends Controller
 {
     public function store(Request $request){
+        // dd('HIT', $request->all(), Auth::user()->id);
         $validated = $request->validate([
             'product_id' => 'required|exists:products,id'
         ]);
@@ -29,6 +31,6 @@ class CartItemController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Added to cart!');
+        return redirect('/products')->with('success', 'Added to cart!');
     }
 }

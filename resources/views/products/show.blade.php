@@ -26,12 +26,14 @@
                     </p>
                 </div>
 
-                @if($product->stock > 0)
-                    <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200">
+                @if ($product->stock > 0)
+                    <span
+                        class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200">
                         In stock
                     </span>
                 @else
-                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-200">
+                    <span
+                        class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-200">
                         Out of stock
                     </span>
                 @endif
@@ -51,12 +53,12 @@
             <div class="mt-6 flex gap-3">
                 <button
                     class="w-full rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-500"
-                    @if($product->stock <= 0) disabled @endif
-                >
+                    @if ($product->stock <= 0)  @endif>
                     Add to cart
                 </button>
 
-                <button class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                <button
+                    class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">
                     Save
                 </button>
             </div>
@@ -64,6 +66,12 @@
             <p class="mt-3 text-xs text-slate-500">
                 *Cart feature will be enabled next.
             </p>
+
+            <form action="/cart/items" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <button>Add to Cart</button>
+            </form>
         </div>
     </div>
 </x-layout>

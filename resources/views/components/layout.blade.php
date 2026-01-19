@@ -57,6 +57,8 @@
         </div>
     </header>
 
+    <x-flash-message />
+
     <!-- Page -->
     <main class="mx-auto max-w-6xl px-4 py-8">
         {{ $slot }}
@@ -68,6 +70,9 @@
             © {{ date('Y') }} Ordifyr. by Alfredo Almirez
         </div>
     </footer>
+
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 </body>
 
 </html>
