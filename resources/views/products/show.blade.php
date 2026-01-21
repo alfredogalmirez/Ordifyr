@@ -51,27 +51,25 @@
             </div>
 
             <div class="mt-6 flex gap-3">
-                <button
-                    class="w-full rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-500"
-                    @if ($product->stock <= 0)  @endif>
-                    Add to cart
-                </button>
+                <form action="/cart/items" method="POST">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <button
+                        class="rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-indigo-500"
+                        @if ($product->stock <= 0)  @endif>Add to Cart</button>
 
-                <button
-                    class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                    Save
-                </button>
+                    <button
+                        class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                        Save
+                    </button>
+                </form>
             </div>
 
             <p class="mt-3 text-xs text-slate-500">
                 *Cart feature will be enabled next.
             </p>
 
-            <form action="/cart/items" method="POST">
-                @csrf
-                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                <button>Add to Cart</button>
-            </form>
+
         </div>
     </div>
 </x-layout>
