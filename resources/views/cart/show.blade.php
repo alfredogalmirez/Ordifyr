@@ -15,6 +15,7 @@
                             <th class="text-right p-3">Price</th>
                             <th class="text-right p-3">Qty</th>
                             <th class="text-right p-3">Total</th>
+                            <th class="text-right p-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,6 +32,15 @@
                                 </td>
                                 <td class="p-3 text-right font-semibold">
                                     ₱{{ number_format(($item->product->price ?? 0) * $item->quantity, 2) }}
+                                </td>
+                                <td class="p-3 text-right font-semibold">
+                                    <form action="{{ route('cart.items.destroy', $item->id )}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:underline">
+                                            Delete
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

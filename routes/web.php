@@ -27,5 +27,6 @@ Route::get('/products/{slug}', [ProductController::class, 'show']);
 // Cart Route
 Route::get('/cart', [CartController::class, 'show'])->middleware('auth')->name('cart.show');
 Route::post('/cart/items', [CartItemController::class, 'store'])->middleware('auth');
+Route::delete('/cart/items/{cartItem}', [CartItemController::class, 'destroy'])->middleware('auth')->name('cart.items.destroy');
 
 require __DIR__.'/auth.php';

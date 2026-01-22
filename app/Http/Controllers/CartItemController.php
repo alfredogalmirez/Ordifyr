@@ -33,4 +33,16 @@ class CartItemController extends Controller
 
         return redirect('/products')->with('success', 'Added to cart!');
     }
+
+
+    public function destroy(CartItem $cartItem){
+
+    if($cartItem->cart->user_id !== Auth::id()){
+        abort(403, 'Unauthorized action');
+    }
+
+    $cartItem->delete();
+
+    return redirect('/products')->with('message', 'Item removed from cart.');
+    }
 }
