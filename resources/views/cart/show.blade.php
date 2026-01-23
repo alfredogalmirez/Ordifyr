@@ -11,30 +11,50 @@
                 <table class="w-full">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="text-left p-3">Product</th>
-                            <th class="text-right p-3">Price</th>
-                            <th class="text-right p-3">Qty</th>
-                            <th class="text-right p-3">Total</th>
-                            <th class="text-right p-3">Action</th>
+                            <th class="text-center p-3">Product</th>
+                            <th class="text-center p-3">Price</th>
+                            <th class="text-center p-3">Qty</th>
+                            <th class="text-center p-3">Total</th>
+                            <th class="text-center p-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($items as $item)
                             <tr class="border-t">
-                                <td class="p-3">
+                                <td class="p-3 text-center">
                                     {{ $item->product->name ?? 'Unknown product' }}
                                 </td>
-                                <td class="p-3 text-right">
+                                <td class="p-3 text-center">
                                     ₱{{ number_format($item->product->price ?? 0, 2) }}
                                 </td>
-                                <td class="p-3 text-right">
-                                    {{ $item->quantity }}
+                                <td class="p-3 text-center">
+                                    <div class="inline-flex items-center gap-2 border rounded-md overflow-hidden">
+                                        <form action="{{ route('cart.items.update', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                                <input type="hidden" name="quantity" value="{{ $item->quantity - 1 }}">
+                                                <button type="submit" class="px-3 py-1 text-lg hover:bg-gray-100 disabled:opacity-50" {{ $item->quantity === 1 ? 'disabled' : ''}}>
+                                                    -
+                                                </button>
+                                        </form>
+
+                                        <span class="px-4 py-1 text-sm font-medium">{{ $item->quantity }}</span>
+
+                                        <form action="{{ route('cart.items.update', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="quantity" value="{{ $item->quantity + 1 }}">
+                                            <button type="submit" class="px-3 py-1 text-lg hover:bg-gray-100">
+                                                +
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
-                                <td class="p-3 text-right font-semibold">
+                                <td class="p-3 text-center font-semibold">
                                     ₱{{ number_format(($item->product->price ?? 0) * $item->quantity, 2) }}
                                 </td>
-                                <td class="p-3 text-right font-semibold">
-                                    <form action="{{ route('cart.items.destroy', $item->id )}}" method="POST">
+                                <td class="p-3 text-center font-semibold">
+                                    <form action="{{ route('cart.items.destroy', $item->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:underline">

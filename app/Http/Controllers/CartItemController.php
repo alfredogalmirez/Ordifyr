@@ -43,6 +43,23 @@ class CartItemController extends Controller
 
     $cartItem->delete();
 
-    return redirect('/products')->with('message', 'Item removed from cart.');
+    return back()->with('success', 'Item removed from cart.');
+    }
+
+    public function update(Request $request, CartItem $cartItem){
+        if($cartItem->cart->user_id !== Auth::id()){
+            abort(403, 'Unauthorized action');
+        }
+
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1'
+        ]);
+
+
+        $cartItem->update([
+            'quantity' => $validated['quantity']
+        ]);
+
+        return back()->with('success', 'Quantity updated.');
     }
 }
