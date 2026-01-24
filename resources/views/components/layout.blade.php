@@ -35,6 +35,25 @@
                             Dashboard
                         </a>
 
+                        <a href="{{ route('cart.show') }}"
+                            class="relative inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100">
+                            {{-- Cart icon (Heroicons outline: shopping-cart) --}}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6 text-gray-700">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.836l.383 1.437M7.5 14.25h10.97a.75.75 0 0 0 .73-.563l1.5-6A.75.75 0 0 0 19.97 6.75H6.122M7.5 14.25 5.106 5.273M7.5 14.25l-.75 3.75a.75.75 0 0 0 .75.75h10.5a.75.75 0 0 0 .75-.75l-.75-3.75M9 20.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm9 0a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
+                            </svg>
+
+                            {{-- Badge (count) --}}
+                            @if (($cartCount ?? 0) > 0)
+                                <span
+                                    class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-red-600 text-white text-[11px] leading-[18px] text-center">
+                                    {{ $cartCount }}
+                                </span>
+                            @endif
+                        </a>
+
+
                         <form method="POST" action="/logout" class="inline">
                             @csrf
                             <button type="submit"
