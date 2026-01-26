@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\AdminProductController;
 
 Route::get('/', function () {
     return view('home');
@@ -24,6 +25,7 @@ Route::middleware('auth')->group(function () {
 // Admin Route
 Route::middleware('auth', 'admin')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/products', [AdminProductController::class, 'show'])->name('admin.show');
 });
 
 // Products Route
