@@ -25,7 +25,11 @@ Route::middleware('auth')->group(function () {
 // Admin Route
 Route::middleware('auth', 'admin')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
     Route::get('/admin/products', [AdminProductController::class, 'index'])->name('admin.products.index');
+    Route::get('/admin/products/create', [AdminProductController::class, 'create'])->name('admin.products.create');
+     Route::post('/admin/products', [AdminProductController::class, 'store'])->name('admin.products.store');
+
     Route::get('/admin/products/{product}/edit', [AdminProductController::class, 'edit'])->name('admin.products.edit');
     Route::patch('/admin/products/{product}', [AdminProductController::class, 'update'])->name('admin.products.update');
 

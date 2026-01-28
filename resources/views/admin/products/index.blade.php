@@ -6,7 +6,7 @@
                 <p class="text-gray-600 text-sm">Manage product stock, pricing, and availability.</p>
             </div>
 
-            <a href="#"
+            <a href="{{ route('admin.products.create') }}"
                 class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900">
                 + Add Product
             </a>
@@ -52,7 +52,7 @@
                                 @endif
                             </td>
                             <td class="p-3 text-right">
-                                <a href="{{route('admin.products.edit', $product )}}"
+                                <a href="{{ route('admin.products.edit', $product) }}"
                                     class="inline-flex items-center px-3 py-1.5 rounded-lg border hover:bg-gray-50">
                                     Edit
                                 </a>
