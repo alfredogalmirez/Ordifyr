@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Support\Facades\Storage;
 
 class AdminProductController extends Controller
 {
@@ -24,15 +25,23 @@ class AdminProductController extends Controller
             'name' => 'required|max:255',
             'price' => 'required|numeric|decimal:0,2|gte:0',
             'stock' => 'required|integer|gte:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        $imagePath = null;
+
+        if($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
 
         Product::create([
             'name' => $validated['name'],
-            'price_cents' => $validated['price'],
+            'price_cents' => round($validated['price'] * 100),
             'stock' => $validated['stock'],
+            'image' => $imagePath,
         ]);
 
-        return back()->with('success', 'Product added successfuly.');
+        return redirect('/admin/products')->with('success', 'Product added successfuly.');
     }
 
     public function edit(Product $product){
@@ -43,17 +52,28 @@ class AdminProductController extends Controller
     public function update(Request $request, Product $product){
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'price' => 'required|numeric|gte:0',
+            'price' => 'required|numeric|decimal:0,2|gte:0',
             'stock' => 'required|integer|gte:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        $imagePath = $product->image;
+
+        if($request->hasFile('image')){
+            if($product->image){
+                Storage::disk('public')->delete($product->image);
+            }
+
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
 
         $product->update([
             'name' => $validated['name'],
-            'price' => $validated['price'],
+            'price_cents' => round($validated['price'] * 100),
             'stock' => $validated['stock'],
         ]);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+        return redirect('/admin/products')->with('success', 'Product updated successfully.');
     }
 
 

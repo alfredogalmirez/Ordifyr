@@ -1,6 +1,4 @@
-{{-- resources/views/admin/products/create.blade.php --}}
-
-<x-layout>
+<x-admin-layout>
     <div class="max-w-3xl mx-auto p-6">
         <div class="flex items-start justify-between mb-6">
             <div>
@@ -11,27 +9,23 @@
             </div>
 
             <a href="{{ route('admin.products.index') }}"
-               class="inline-flex items-center px-4 py-2 rounded-lg border bg-white hover:bg-gray-50">
+                class="inline-flex items-center px-4 py-2 rounded-lg border bg-white hover:bg-gray-50">
                 Back
             </a>
         </div>
 
         <div class="bg-white border rounded-xl overflow-hidden">
             {{-- IMPORTANT: submit to STORE route, not CREATE --}}
-            <form method="POST" action="{{ route('admin.products.store') }}" class="p-6 space-y-5">
+            <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data"
+                class="p-6 space-y-5">
                 @csrf
 
                 {{-- Name --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-900 mb-1">Product Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value="{{ old('name') }}"
+                    <input type="text" name="name" value="{{ old('name') }}"
                         class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring"
-                        placeholder="Enter product name"
-                        required
-                    >
+                        placeholder="Enter product name" required>
                     @error('name')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -41,16 +35,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-900 mb-1">Price (₱)</label>
-                        <input
-                            type="number"
-                            name="price"
-                            step="0.01"
-                            min="0"
-                            value="{{ old('price') }}"
+                        <input type="number" name="price" step="0.01" min="0" value="{{ old('price') }}"
                             class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring"
-                            placeholder="0.00"
-                            required
-                        >
+                            placeholder="0.00" required>
                         @error('price')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -58,35 +45,35 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-900 mb-1">Stock</label>
-                        <input
-                            type="number"
-                            name="stock"
-                            min="0"
-                            step="1"
-                            value="{{ old('stock', 0) }}"
+                        <input type="number" name="stock" min="0" step="1" value="{{ old('stock', 0) }}"
                             class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring"
-                            placeholder="0"
-                            required
-                        >
+                            placeholder="0" required>
                         @error('stock')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
+
+                        <label class="block text-sm font-medium text-slate-700">
+                            Product Image
+                        </label>
+
+                        <input type="file" name="image" accept="image/*"
+                            class="mt-1 block w-full text-sm text-slate-700" />
                     </div>
+
                 </div>
 
                 {{-- Actions --}}
                 <div class="pt-2 flex items-center justify-end gap-3">
-                    <a href="{{ route('admin.index') }}"
-                       class="px-4 py-2 rounded-lg border bg-white hover:bg-gray-50">
+                    <a href="{{ route('admin.index') }}" class="px-4 py-2 rounded-lg border bg-white hover:bg-gray-50">
                         Cancel
                     </a>
 
                     <button type="submit"
-                            class="px-5 py-2.5 rounded-lg bg-purple-800 text-white border-4 hover:bg-purple-900">
+                        class="px-5 py-2.5 rounded-lg bg-purple-800 text-white border-4 hover:bg-purple-900">
                         Create product
                     </button>
                 </div>
             </form>
         </div>
     </div>
-</x-layout>
+</x-admin-layout>

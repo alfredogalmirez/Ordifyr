@@ -28,11 +28,6 @@
                     </a>
 
                     @auth
-                        <a href="/dashboard"
-                            class="rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-slate-900">
-                            Dashboard
-                        </a>
-
                         <a href="{{ route('cart.show') }}"
                             class="relative inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100">
                             {{-- Cart icon (Heroicons outline: shopping-cart) --}}

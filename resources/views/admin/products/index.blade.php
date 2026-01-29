@@ -1,4 +1,4 @@
-<x-layout>
+<x-admin-layout>
     <div class="max-w-6xl mx-auto p-6">
         <div class="flex items-center justify-between mb-6">
             <div>
@@ -6,10 +6,12 @@
                 <p class="text-gray-600 text-sm">Manage product stock, pricing, and availability.</p>
             </div>
 
-            <a href="{{ route('admin.products.create') }}"
-                class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900">
-                + Add Product
-            </a>
+            <x-slot:actions>
+                <a href="{{ route('admin.products.create') }}"
+                    class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900">
+                    + Add Product
+                </a>
+            </x-slot:actions>
         </div>
 
         <div class="bg-white border rounded-lg overflow-hidden">
@@ -72,4 +74,4 @@
             </div>
         </div>
     </div>
-</x-layout>
+</x-admin-layout>

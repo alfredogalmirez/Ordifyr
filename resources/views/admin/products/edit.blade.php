@@ -1,4 +1,4 @@
-<x-layout>
+<x-admin-layout>
     <div class="max-w-3xl mx-auto p-6">
         <div class="flex items-start justify-between mb-6">
             <div>
