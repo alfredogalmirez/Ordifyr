@@ -8,7 +8,15 @@
         <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div class="aspect-[4/3] bg-slate-100">
                 <div class="flex h-full items-center justify-center text-slate-400">
-                    <span class="text-sm">Image</span>
+                    @if ($product->image)
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                                loading="lazy">
+                        @else
+                            <div class="flex h-full items-center justify-center text-slate-400">
+                                <span class="text-sm">No image</span>
+                            </div>
+                        @endif
                 </div>
             </div>
         </div>
@@ -55,7 +63,7 @@
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <button
-                        class="rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-indigo-500"
+                        class="rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
                         @if ($product->stock <= 0)  @endif>Add to Cart</button>
 
                     <button

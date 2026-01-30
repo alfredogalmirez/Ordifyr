@@ -6,7 +6,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\PaymongoWebhookController;
 
 Route::get('/', function () {
     return view('home');
@@ -20,7 +22,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+    // Checkout Routes
+    Route::post('/checkout', [CheckoutController::class, 'start'])->name('checkout.start');
+    Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 });
+
+    // Webhooks
+    Route::post('/webhooks/paymongo', [PaymongoWebhookController::class, 'handle'])->name('webhooks.paymongo');
 
 // Admin Route
 Route::middleware('auth', 'admin')->group(function () {

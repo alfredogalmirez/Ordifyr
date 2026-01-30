@@ -43,10 +43,12 @@
                             <td class="p-3 text-right">₱{{ number_format($product->price, 2) }}</td>
                             <td class="p-3 text-right">{{ $product->stock }}</td>
                             <td class="p-3 text-center">
-                                @if ($product->stock > 0)
+                                @if ($product->stock > 5)
                                     <span class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">
                                         In stock
                                     </span>
+                                @elseif ($product->stock <= 5)
+                                    <span class="ml-1 px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700">Low stock</span>
                                 @else
                                     <span class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-700">
                                         Out of stock

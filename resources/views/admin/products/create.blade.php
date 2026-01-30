@@ -51,13 +51,27 @@
                         @error('stock')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
+                    </div>
 
-                        <label class="block text-sm font-medium text-slate-700">
+                    <div>
+                        <label class="mb-1 block text-sm font-medium text-slate-700">
                             Product Image
                         </label>
 
                         <input type="file" name="image" accept="image/*"
-                            class="mt-1 block w-full text-sm text-slate-700" />
+                            class="block w-full rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-700
+                             file:mr-4 file:rounded-lg file:border-0
+                             file:bg-indigo-600 file:px-4 file:py-2
+                             file:text-sm file:font-medium file:text-white
+                             hover:file:bg-indigo-500">
+
+                        <p class="mt-1 text-xs text-slate-500">
+                            JPG, PNG, or WEBP. Max 2MB.
+                        </p>
+
+                        @error('image')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                 </div>
