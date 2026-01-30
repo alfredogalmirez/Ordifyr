@@ -1,60 +1,84 @@
-Ordifyr
+🛒 Ordifyr
 
-Ordifyr is a Laravel-based e-commerce web application built to practice and demonstrate real-world web development concepts such as authentication, cart management, product administration, file uploads, and payment gateway integration (PH-first).
+Ordifyr is a Laravel-based e-commerce web application built to practice and demonstrate real-world backend and full-stack development concepts such as product management, cart systems, file uploads, admin dashboards, and payment gateway integration (PH-first).
 
-The project is designed with clean architecture, scalable logic, and practical workflows similar to real production systems.
+This project is developed as both a portfolio project for recruiters/employers and a personal learning project, with emphasis on clean logic, correct workflows, and scalable architecture.
 
-✨ Features
+
+🎯 Project Goals
+
+Learn and implement real-world e-commerce flows
+
+Understand backend concepts deeply (not just make things “work”)
+
+Practice clean Laravel architecture and validation logic
+
+Build a project suitable for junior developer portfolios
+
+
+✨ Current Features
+
 👤 User Side
 
 User authentication (Laravel Breeze)
 
-Browse products
+Browse product listings
 
 View product details
 
-Add items to cart
+Add products to cart
 
-Update item quantities
+Update cart item quantities
 
 Remove items from cart
 
 View cart summary
 
-Image-based product listings
+Product images with graceful fallback (optional images)
 
 
 🛠️ Admin Side
 
 Admin dashboard
 
-Create, edit, and list products
+Product management:
 
-Product image upload (stored in storage/app/public)
+Create products
+
+Edit products
+
+View product list
+
+Product image upload
 
 Stock management
 
-Price handling using cents-based system (safe money handling)
+Price handling using integer cents system (price_cents)
+
+Separate admin layout using Blade components
 
 
-📦 Product Management
+📦 Product & Cart System
 
-Image upload with validation
+Cart linked to authenticated user
 
-Optional product images (nullable)
+Cart items with quantity validation
 
-Placeholder UI for products without images
+Server-side total computation
 
-Stock availability indicators
+Guard-clause based checkout validation
 
-Price stored as price_cents (integer)
+Stock-aware logic (preparation for checkout)
 
-
-💳 Payment (In Progress)
+💳 Payment Gateway (In Progress)
 
 PayMongo Checkout integration (PH-first)
 
-GCash / Maya support (planned)
+Planned support for:
+
+GCash
+
+Maya
 
 Order-based payment flow:
 
@@ -64,9 +88,9 @@ Redirect to PayMongo checkout
 
 Confirm payment via webhooks
 
-Secure webhook verification
+Secure payment confirmation (no trust on redirects)
 
-Payment status handling (pending, paid, failed)
+Payment logic is being built backend-first to ensure correctness before UI integration.
 
 
 🧠 Technical Highlights
@@ -79,9 +103,9 @@ Tailwind CSS (CDN)
 
 Eloquent relationships
 
-Storage-based file uploads (storage/app/public)
+Storage-based file uploads
 
-Clean separation of:
+Clean separation of concerns:
 
 Cart logic
 
@@ -89,6 +113,73 @@ Order logic
 
 Payment logic
 
-Guard-clause driven checkout validation
+Server-side validation and guard clauses
 
-Server-side total computation (no trust on client data)
+Integer-based money calculations (no floating-point issues)
+
+
+🗂️ File Upload Handling
+
+Product images are not stored in the database
+
+Only relative file paths are saved
+
+Files are stored in:
+
+storage/app/public/products
+
+
+🛡️ Security & Best Practices
+
+Server-side validation for:
+
+File uploads
+
+Cart items and quantities
+
+Price and total calculations
+
+Payment confirmation via webhooks only
+
+No sensitive keys exposed to frontend
+
+Prepared for idempotent webhook handling
+
+Uses integer-based pricing for accuracy
+
+
+
+🧪 Development Notes
+
+This project is actively developed
+
+Features are implemented step-by-step with focus on understanding why things work
+
+Backend logic is prioritized before UI polish
+
+Payment gateway integration is intentionally learned and built incrementally
+
+
+📌 Planned Features
+
+Checkout page (order review)
+
+PayMongo live integration
+
+Order history for users
+
+Admin order management
+
+Email notifications
+
+Inventory reservation logic
+
+Multiple product images
+
+International payments (future)
+
+
+👨‍💻 Author
+
+Ordifyr is developed by Alfredo Almirez
+Built as a hands-on learning project focused on Laravel, backend architecture, and real-world e-commerce flows.
