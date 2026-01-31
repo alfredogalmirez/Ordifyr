@@ -22,6 +22,8 @@ class CheckoutController extends Controller
             return redirect('/products')->with('message', 'Add item first.');
         }
 
+        $totalCents = 0;
+
         foreach ($cart->items as $item) {
             if ($item->quantity <= 0) {
                 return redirect('/products')
@@ -35,8 +37,21 @@ class CheckoutController extends Controller
 
             if ($item->quantity > $item->product->stock) {
                 return redirect('/products')
-                    ->with('message', 'Not enought stock for {$item->product->name}.');
+                    ->with('message', "Not enought stock for {$item->product->name}.");
             }
+
+            $totalCents += $item->product->price_cents * $item->quantity;
+
+
+            if ($totalCents <= 0) {
+                return redirect('/products')->with('message', 'Something is wrong.');
+            }
+
+            return redirect()->route('checkout.index');
         }
+    }
+
+    public function index(Cart $cart){
+        return view('checkout.index', compact('cart'));
     }
 }
