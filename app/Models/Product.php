@@ -10,9 +10,10 @@ class Product extends Model
 {
     protected $fillable = ['name', 'slug', 'price_cents', 'stock', 'description', 'image', 'is_active'];
 
-    protected static function booted(): void {
-        static::creating(function (Product $product){
-            if(!empty($product->slug)){
+    protected static function booted(): void
+    {
+        static::creating(function (Product $product) {
+            if (!empty($product->slug)) {
                 return;
             }
 
@@ -20,7 +21,7 @@ class Product extends Model
             $slug = $base;
             $i = 2;
 
-            while(static::where('slug', $slug)->exists()){
+            while (static::where('slug', $slug)->exists()) {
                 $slug = $base . '-' . $i;
                 $i++;
             }
@@ -29,8 +30,8 @@ class Product extends Model
         });
     }
 
-    public function getPriceAttribute()
+    public function getPriceAttribute(): float
     {
-        return $this->price_cents / 100;
+        return ($this->price_cents ?? 0) / 100;
     }
 }

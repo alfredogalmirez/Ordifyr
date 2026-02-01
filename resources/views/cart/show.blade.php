@@ -32,10 +32,12 @@
                                         <form action="{{ route('cart.items.update', $item->id) }}" method="POST">
                                             @csrf
                                             @method('PATCH')
-                                                <input type="hidden" name="quantity" value="{{ $item->quantity - 1 }}">
-                                                <button type="submit" class="px-3 py-1 text-lg hover:bg-gray-100 disabled:opacity-50" {{ $item->quantity === 1 ? 'disabled' : ''}}>
-                                                    -
-                                                </button>
+                                            <input type="hidden" name="quantity" value="{{ $item->quantity - 1 }}">
+                                            <button type="submit"
+                                                class="px-3 py-1 text-lg hover:bg-gray-100 disabled:opacity-50"
+                                                {{ $item->quantity === 1 ? 'disabled' : '' }}>
+                                                -
+                                            </button>
                                         </form>
 
                                         <span class="px-4 py-1 text-sm font-medium">{{ $item->quantity }}</span>
@@ -75,6 +77,13 @@
                         <span class="font-bold">₱{{ number_format($subtotal, 2) }}</span>
                     </div>
                 </div>
+
+                <form method="POST" action="{{ route('checkout.start') }}">
+                    @csrf
+                    <button class="btn-primary">
+                        Proceed to Checkout
+                    </button>
+                </form>
             </div>
         @endif
     </div>
