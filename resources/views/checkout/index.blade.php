@@ -1,87 +1,107 @@
-<x-layout>
-    <div class="max-w-4xl mx-auto p-6">
-        <h1 class="text-2xl font-bold mb-6">Checkout</h1>
-
-        <div class="bg-white border rounded-lg overflow-hidden">
-            <div class="p-4 border-b bg-gray-50">
-                <p class="font-semibold">Review your order</p>
-                <p class="text-sm text-gray-600">Please confirm quantities and totals before paying.</p>
+<x-layout title="Checkout">
+    <div class="max-w-4xl mx-auto p-4 sm:p-6">
+        <div class="flex items-start justify-between gap-4 mb-6">
+            <div>
+                <h1 class="text-2xl font-bold">Checkout</h1>
+                <p class="text-gray-600 text-sm mt-1">Review your order before paying.</p>
             </div>
+            <a href="/cart" class="px-4 py-2 rounded-lg border bg-white">
+                Back to cart
+            </a>
+        </div>
 
-            <table class="w-full">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="text-left p-3">Product</th>
-                        <th class="text-right p-3">Price</th>
-                        <th class="text-right p-3">Qty</th>
-                        <th class="text-right p-3">Line total</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y">
-                    @foreach ($cart->items as $item)
-                        @php
-                            $product = $item->product;
-                        @endphp
+        {{-- Flash --}}
+        @if (session('error'))
+            <div class="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-red-700">
+                {{ session('error') }}
+            </div>
+        @endif
 
-                        @if ($product)
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {{-- Items --}}
+            <div class="lg:col-span-2 rounded-xl border bg-white overflow-hidden">
+                <div class="p-4 border-b">
+                    <h2 class="font-semibold">Items</h2>
+                </div>
+
+                <div class="divide-y">
+                    @if (!$cart || $cart->items->isEmpty())
+                        <p>Your Cart is empty.</p>
+                    @else
+                        @foreach ($cart->items as $item)
                             @php
-                                $price = $product->price_cents;
-                                $lineTotal = $price * $item->quantity;
+                                $priceCents = $item->product ? (int) $item->product->getRawOriginal('price_cents') : 0;
+                                $lineTotalCents = $priceCents * $item->quantity;
                             @endphp
 
-                            <tr>
-                                <td class="p-3">
-                                    <div class="font-medium text-gray-900">{{ $product->name }}</div>
-                                    <div class="text-sm text-gray-500">In stock: {{ $product->stock }}</div>
-                                </td>
-                                <td class="p-3 text-right">₱{{ number_format($price / 100, 2) }}</td>
-                                <td class="p-3 text-right">{{ $item->quantity }}</td>
-                                <td class="p-3 text-right font-medium">₱{{ number_format($lineTotal / 100, 2) }}</td>
-                            </tr>
-                        @endif
-                    @endforeach
-                </tbody>
-            </table>
+                            <div class="p-4 flex items-center justify-between gap-4">
+                                <div>
+                                    <p class="font-semibold">
+                                        {{ $item->product?->name ?? 'Unavailable product' }}
+                                    </p>
+                                    <p class="text-sm text-gray-600">
+                                        Qty: {{ $item->quantity }}
+                                        @if ($item->product)
+                                            · Stock: {{ $item->product->stock }}
+                                        @endif
+                                    </p>
+                                </div>
 
-            <div class="p-4 border-t">
-                <div class="flex justify-end">
-                    <div class="w-full max-w-sm space-y-2">
-                        <div class="flex justify-between text-gray-700">
-                            <span>Subtotal</span>
-                            <span>₱{{ number_format($subtotal / 100, 2) }}</span>
-                        </div>
+                                <div class="text-right">
+                                    @if ($item->product)
+                                        <p class="text-sm text-gray-600">
+                                            ₱{{ number_format($priceCents / 100, 2) }} each
+                                        </p>
+                                        <p class="font-semibold">
+                                            ₱{{ number_format($lineTotalCents / 100, 2) }}
+                                        </p>
+                                    @else
+                                        <p class="text-sm text-red-600">Unavailable</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
 
-                        {{-- Optional placeholders for later --}}
-                        <div class="flex justify-between text-gray-500 text-sm">
-                            <span>Shipping</span>
-                            <span>Calculated later</span>
-                        </div>
+            {{-- Summary + Pay --}}
+            <div class="rounded-xl border bg-white p-4 h-fit">
+                <h2 class="font-semibold mb-4">Order summary</h2>
 
-                        <div class="flex justify-between text-gray-900 font-semibold text-lg pt-2 border-t">
-                            <span>Total</span>
-                            <span>₱{{ number_format($subtotal / 100, 2) }}</span>
-                        </div>
+                @php
+                    // If you passed subtotalCents from controller, use that.
+                    // Otherwise compute here (controller is better).
+                    $subtotalCents = $subtotalCents ?? 0;
+                @endphp
 
-                        <div class="pt-4 flex gap-3">
-                            <a href="/cart"
-                               class="w-1/2 text-center px-4 py-3 rounded-lg border bg-white hover:bg-gray-50">
-                                Back to cart
-                            </a>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Subtotal</span>
+                        <span class="font-semibold">₱{{ number_format($subtotalCents / 100, 2) }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Shipping</span>
+                        <span class="font-semibold">₱0.00</span>
+                    </div>
 
-                            {{-- For now this can point to a placeholder route --}}
-                            <form method="POST" action="{{ route('checkout.start') }}" class="w-1/2">
-                                @csrf
-                                <button class="w-full px-4 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">
-                                    Confirm & Pay
-                                </button>
-                            </form>
-                        </div>
-
-                        <p class="text-xs text-gray-500 pt-2">
-                            You’ll be redirected to the payment page next.
-                        </p>
+                    <div class="border-t pt-3 flex justify-between text-base">
+                        <span class="font-semibold">Total</span>
+                        <span class="font-bold">₱{{ number_format($subtotalCents / 100, 2) }}</span>
                     </div>
                 </div>
+
+                <form method="POST" action="{{ route('checkout.gcash') }}" class="mt-5">
+                    @csrf
+                    <button type="submit"
+                        class="w-full px-4 py-3 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700">
+                        Pay with GCash
+                    </button>
+                </form>
+
+                <p class="text-xs text-gray-500 mt-3">
+                    You’ll be redirected to PayMongo to complete payment.
+                </p>
             </div>
         </div>
     </div>

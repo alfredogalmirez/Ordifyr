@@ -46,6 +46,7 @@ class CartItemController extends Controller
     return back()->with('success', 'Item removed from cart.');
     }
 
+
     public function update(Request $request, CartItem $cartItem){
         if($cartItem->cart->user_id !== Auth::id()){
             abort(403, 'Unauthorized action');

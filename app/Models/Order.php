@@ -13,4 +13,8 @@ class Order extends Model
         'paymongo_checkout_session_id',
         'paymongo_payment_id'
     ];
+
+    public function items(){
+        return $this->hasMany(OrderItem::class);
+    }
 }

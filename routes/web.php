@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymongoWebhookController;
 
 Route::get('/', function () {
@@ -27,12 +28,16 @@ Route::middleware('auth')->group(function () {
     // Checkout Routes
     Route::post('/checkout', [CheckoutController::class, 'start'])->name('checkout.start');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/gcash', [CheckoutController::class, 'gcash'])->name('checkout.gcash');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
+
+    // Orders Routes
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 });
 
-    // Webhooks
-    Route::post('/webhooks/paymongo', [PaymongoWebhookController::class, 'handle'])->name('webhooks.paymongo');
+// Webhooks
+Route::post('/webhooks/paymongo', [PaymongoWebhookController::class, 'handle'])->name('webhooks.paymongo');
 
 // Admin Route
 Route::middleware('auth', 'admin')->group(function () {
@@ -40,11 +45,10 @@ Route::middleware('auth', 'admin')->group(function () {
 
     Route::get('/admin/products', [AdminProductController::class, 'index'])->name('admin.products.index');
     Route::get('/admin/products/create', [AdminProductController::class, 'create'])->name('admin.products.create');
-     Route::post('/admin/products', [AdminProductController::class, 'store'])->name('admin.products.store');
+    Route::post('/admin/products', [AdminProductController::class, 'store'])->name('admin.products.store');
 
     Route::get('/admin/products/{product}/edit', [AdminProductController::class, 'edit'])->name('admin.products.edit');
     Route::patch('/admin/products/{product}', [AdminProductController::class, 'update'])->name('admin.products.update');
-
 });
 
 // Products Route
@@ -57,4 +61,4 @@ Route::post('/cart/items', [CartItemController::class, 'store'])->middleware('au
 Route::delete('/cart/items/{cartItem}', [CartItemController::class, 'destroy'])->middleware('auth')->name('cart.items.destroy');
 Route::patch('/cart/items/{cartItem}', [CartItemController::class, 'update'])->middleware('auth')->name('cart.items.update');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

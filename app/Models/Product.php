@@ -34,4 +34,8 @@ class Product extends Model
     {
         return ($this->price_cents ?? 0) / 100;
     }
+
+    public function orderItems(){
+        return $this->hasMany(OrderItem::class);
+    }
 }
