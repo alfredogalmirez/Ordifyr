@@ -10,6 +10,7 @@ class Order extends Model
         'user_id',
         'amount_cents',
         'status',
+        'reference_number',
         'paymongo_checkout_session_id',
         'paymongo_payment_id'
     ];

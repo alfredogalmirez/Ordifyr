@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminProductController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymongoWebhookController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -34,6 +35,12 @@ Route::middleware('auth')->group(function () {
 
     // Orders Routes
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{order}/status', function (\App\Models\Order $order) {
+        return response()->json([
+            'status' => $order->status,
+            'paid_at' => $order->paid_at,
+        ]);
+    });
 });
 
 // Webhooks

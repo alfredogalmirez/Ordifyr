@@ -148,7 +148,9 @@ class CheckoutController extends Controller
             return $result;
         }
 
+
         $order = $result;
+        $order->load(['items.product']);
 
         $secretKey = config('services.paymongo.secret');
 
@@ -195,13 +197,12 @@ class CheckoutController extends Controller
         // Step 3: Save session id on your order
         $order->update([
             'paymongo_checkout_session_id' => $sessionId,
+            'status' => 'awaiting_payment',
         ]);
 
 
         // Step 4: Redirect user to PayMongo hosted page
         return redirect()->away($checkoutUrl);
-
-        return redirect()->route('orders.show', $order);
     }
 
     public function success(Request $request)
