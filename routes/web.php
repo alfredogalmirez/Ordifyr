@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
@@ -13,7 +14,9 @@ use App\Http\Controllers\PaymongoWebhookController;
 
 
 Route::get('/', function () {
-    return view('home');
+    $products = Product::query()->where('is_active', 1)->orderByDesc('id')->take(8)->get();
+
+    return view('home', compact('products'));
 });
 
 Route::get('/dashboard', function () {
@@ -60,7 +63,7 @@ Route::middleware('auth', 'admin')->group(function () {
 
 // Products Route
 Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products/{slug}', [ProductController::class, 'show']);
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
 // Cart Route
 Route::get('/cart', [CartController::class, 'show'])->middleware('auth')->name('cart.show');

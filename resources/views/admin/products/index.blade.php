@@ -1,79 +1,110 @@
-<x-admin-layout>
-    <div class="max-w-6xl mx-auto p-6">
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h1 class="text-2xl font-bold">Products</h1>
-                <p class="text-gray-600 text-sm">Manage product stock, pricing, and availability.</p>
-            </div>
-
-            <x-slot:actions>
-                <a href="{{ route('admin.products.create') }}"
-                    class="inline-flex items-center px-4 py-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900">
-                    + Add Product
-                </a>
-            </x-slot:actions>
+<x-admin-layout title="Products">
+    {{-- Top title --}}
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Products</h1>
+            <p class="text-sm text-slate-600 mt-1">Manage stock, pricing, and availability.</p>
         </div>
 
-        <div class="bg-white border rounded-lg overflow-hidden">
-            <div class="p-4 border-b bg-gray-50 flex items-center justify-between">
-                <div class="text-sm text-gray-600">
-                    Total products: <span class="font-semibold">—</span>
-                </div>
+        <x-slot:actions>
+            <a href="{{ route('admin.products.create') }}"
+                class="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold bg-indigo-900 text-white shadow-sm hover:bg-slate-800 transition">
+                + Add product
+            </a>
+        </x-slot:actions>
+    </div>
 
-                <input type="text" placeholder="Search product..."
-                    class="w-64 px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring">
+    {{-- Card --}}
+    <div class="rounded-2xl bg-white shadow-sm overflow-hidden">
+        {{-- Toolbar --}}
+        <div class="p-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-white">
+            <div class="text-sm text-slate-600">
+                Total products: <span class="font-semibold text-slate-900">{{ $products->total() ?? $products->count() }}</span>
             </div>
 
-            <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b">
+            <form method="GET" action="{{ url()->current() }}" class="w-full sm:w-auto">
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Search product..."
+                    class="w-full sm:w-72 rounded-xl bg-slate-100 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-600/30"
+                />
+            </form>
+        </div>
+
+        {{-- Table (clean, minimal lines) --}}
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead class="bg-slate-50 text-slate-600">
                     <tr>
-                        <th class="text-left p-3">Name</th>
-                        <th class="text-right p-3">Price</th>
-                        <th class="text-right p-3">Stock</th>
-                        <th class="text-center p-3">Status</th>
-                        <th class="text-right p-3">Action</th>
+                        <th class="text-left px-5 py-3 font-semibold">Name</th>
+                        <th class="text-right px-5 py-3 font-semibold">Price</th>
+                        <th class="text-right px-5 py-3 font-semibold">Stock</th>
+                        <th class="text-center px-5 py-3 font-semibold">Status</th>
+                        <th class="text-right px-5 py-3 font-semibold">Action</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-slate-100">
                     @forelse ($products as $product)
-                        {{-- TEMP rows (UI only) --}}
-                        <tr class="hover:bg-gray-50">
-                            <td class="p-3 font-medium text-gray-900">{{ $product->name }}</td>
-                            <td class="p-3 text-right">₱{{ number_format($product->price, 2) }}</td>
-                            <td class="p-3 text-right">{{ $product->stock }}</td>
-                            <td class="p-3 text-center">
-                                @if ($product->stock > 5)
-                                    <span class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">
-                                        In stock
-                                    </span>
-                                @elseif ($product->stock <= 5)
-                                    <span class="ml-1 px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700">Low stock</span>
-                                @else
-                                    <span class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-700">
+                        <tr class="hover:bg-slate-50/60 transition">
+                            <td class="px-5 py-4">
+                                <div class="font-semibold text-slate-900">{{ $product->name }}</div>
+                                <div class="text-xs text-slate-500">ID: {{ $product->id }}</div>
+                            </td>
+
+                            <td class="px-5 py-4 text-right font-semibold text-slate-900">
+                                ₱{{ number_format($product->price_cents / 100, 2) }}
+                            </td>
+
+                            <td class="px-5 py-4 text-right text-slate-700">
+                                {{ $product->stock }}
+                            </td>
+
+                            <td class="px-5 py-4 text-center">
+                                @php
+                                    $stock = (int) $product->stock;
+                                @endphp
+
+                                @if ($stock <= 0)
+                                    <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
                                         Out of stock
+                                    </span>
+                                @elseif ($stock < 5)
+                                    <span class="inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
+                                        Low stock
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                                        In stock
                                     </span>
                                 @endif
                             </td>
-                            <td class="p-3 text-right">
+
+                            <td class="px-5 py-4 text-right">
                                 <a href="{{ route('admin.products.edit', $product) }}"
-                                    class="inline-flex items-center px-3 py-1.5 rounded-lg border hover:bg-gray-50">
+                                    class="inline-flex items-center rounded-xl px-4 py-2 text-xs font-semibold bg-white shadow-sm hover:bg-slate-50 transition">
                                     Edit
                                 </a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="p-6 text-center text-gray-600">
+                            <td colspan="5" class="px-5 py-10 text-center text-slate-500">
                                 No products found.
                             </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
+        </div>
 
-            <div class="p-4 border-t text-sm text-gray-600">
-            </div>
+        {{-- Footer / pagination --}}
+        <div class="p-5">
+            @if (method_exists($products, 'links'))
+                {{ $products->withQueryString()->links() }}
+            @endif
         </div>
     </div>
 </x-admin-layout>

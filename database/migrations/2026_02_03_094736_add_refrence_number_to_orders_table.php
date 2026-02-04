@@ -15,17 +15,6 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->string('reference_number')->nullable()->unique();
         });
-
-        DB::table('orders')
-            ->whereNull('reference_number')
-            ->orWhere('reference_number', '')
-            ->update([
-                'reference_number' => DB::raw("CONCAT('ORD-', id)")
-            ]);
-
-        Schema::table('orders', function (Blueprint $table) {
-            $table->unique('reference_number');
-        });
     }
 
     /**
@@ -34,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            //
+            $table->dropUnique('orders_reference_number_unique');
+            $table->dropColumn('reference_number');
         });
     }
 };

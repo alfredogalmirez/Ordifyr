@@ -1,31 +1,45 @@
-<x-admin-layout>
-    <div class="max-w-3xl mx-auto p-6">
-        <div class="flex items-start justify-between mb-6">
+<x-admin-layout title="Add Product">
+    <div class="max-w-3xl mx-auto">
+
+        {{-- Header --}}
+        <div class="flex items-start justify-between mb-8">
             <div>
-                <h1 class="text-2xl font-bold">Add Product</h1>
-                <p class="text-gray-600 text-sm">
+                <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">
+                    Add product
+                </h1>
+                <p class="text-sm text-slate-600 mt-1">
                     Create a new product by filling in the details below.
                 </p>
             </div>
 
             <a href="{{ route('admin.products.index') }}"
-                class="inline-flex items-center px-4 py-2 rounded-lg border bg-white hover:bg-gray-50">
-                Back
+                class="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold bg-white shadow-sm hover:bg-slate-50 transition">
+                ← Back
             </a>
         </div>
 
-        <div class="bg-white border rounded-xl overflow-hidden">
-            {{-- IMPORTANT: submit to STORE route, not CREATE --}}
-            <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data"
-                class="p-6 space-y-5">
+        {{-- Card --}}
+        <div class="rounded-2xl bg-white shadow-sm overflow-hidden">
+            <form method="POST"
+                action="{{ route('admin.products.store') }}"
+                enctype="multipart/form-data"
+                class="p-6 sm:p-8 space-y-6">
                 @csrf
 
                 {{-- Name --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-900 mb-1">Product Name</label>
-                    <input type="text" name="name" value="{{ old('name') }}"
-                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring"
-                        placeholder="Enter product name" required>
+                    <label class="block text-sm font-semibold text-slate-900 mb-2">
+                        Product name
+                    </label>
+                    <input
+                        type="text"
+                        name="name"
+                        value="{{ old('name') }}"
+                        placeholder="Enter product name"
+                        required
+                        class="w-full rounded-xl bg-slate-100 px-4 py-3 text-slate-900 placeholder:text-slate-500
+                               focus:outline-none focus:ring-2 focus:ring-indigo-600/30"
+                    >
                     @error('name')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -34,56 +48,89 @@
                 {{-- Price + Stock --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-1">Price (₱)</label>
-                        <input type="number" name="price" step="0.01" min="0" value="{{ old('price') }}"
-                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring"
-                            placeholder="0.00" required>
+                        <label class="block text-sm font-semibold text-slate-900 mb-2">
+                            Price (₱)
+                        </label>
+                        <input
+                            type="number"
+                            name="price"
+                            step="0.01"
+                            min="0"
+                            value="{{ old('price') }}"
+                            placeholder="0.00"
+                            required
+                            class="w-full rounded-xl bg-slate-100 px-4 py-3 text-slate-900 placeholder:text-slate-500
+                                   focus:outline-none focus:ring-2 focus:ring-indigo-600/30"
+                        >
                         @error('price')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-1">Stock</label>
-                        <input type="number" name="stock" min="0" step="1" value="{{ old('stock', 0) }}"
-                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring"
-                            placeholder="0" required>
+                        <label class="block text-sm font-semibold text-slate-900 mb-2">
+                            Stock
+                        </label>
+                        <input
+                            type="number"
+                            name="stock"
+                            min="0"
+                            step="1"
+                            value="{{ old('stock', 0) }}"
+                            placeholder="0"
+                            required
+                            class="w-full rounded-xl bg-slate-100 px-4 py-3 text-slate-900 placeholder:text-slate-500
+                                   focus:outline-none focus:ring-2 focus:ring-indigo-600/30"
+                        >
                         @error('stock')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
 
-                    <div>
-                        <label class="mb-1 block text-sm font-medium text-slate-700">
-                            Product Image
-                        </label>
+                {{-- Image --}}
+                <div>
+                    <label class="block text-sm font-semibold text-slate-900 mb-2">
+                        Product image
+                    </label>
 
-                        <input type="file" name="image" accept="image/*"
-                            class="block w-full rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-700
-                             file:mr-4 file:rounded-lg file:border-0
-                             file:bg-indigo-600 file:px-4 file:py-2
-                             file:text-sm file:font-medium file:text-white
-                             hover:file:bg-indigo-500">
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        class="block w-full rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700
+                               file:mr-4 file:rounded-xl file:border-0
+                               file:bg-indigo-900 file:px-4 file:py-2
+                               file:text-sm file:font-semibold file:text-white
+                               hover:file:bg-indigo-800 transition"
+                    >
 
-                        <p class="mt-1 text-xs text-slate-500">
-                            JPG, PNG, or WEBP. Max 2MB.
-                        </p>
+                    <p class="mt-2 text-xs text-slate-500">
+                        JPG, PNG, or WEBP. Max 2MB.
+                    </p>
 
-                        @error('image')
-                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    @error('image')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
 
+                {{-- Info panel --}}
+                <div class="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
+                    Newly created products will be immediately visible in the shop
+                    unless marked inactive later.
                 </div>
 
                 {{-- Actions --}}
                 <div class="pt-2 flex items-center justify-end gap-3">
-                    <a href="{{ route('admin.index') }}" class="px-4 py-2 rounded-lg border bg-white hover:bg-gray-50">
+                    <a href="{{ route('admin.products.index') }}"
+                        class="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold bg-white shadow-sm hover:bg-slate-50 transition">
                         Cancel
                     </a>
 
-                    <button type="submit"
-                        class="px-5 py-2.5 rounded-lg bg-purple-800 text-white border-4 hover:bg-purple-900">
+                    <button
+                        type="submit"
+                        class="inline-flex items-center rounded-xl px-5 py-2.5 text-sm font-semibold
+                               bg-indigo-700 text-white shadow-sm hover:bg-indigo-600 transition">
                         Create product
                     </button>
                 </div>
