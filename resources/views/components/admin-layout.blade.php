@@ -36,7 +36,7 @@
                     class="flex items-center gap-3 rounded-xl px-3 py-2 transition
                     {{ request()->is('admin') ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900' }}">
                     <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
-                        🏠
+                        <img src="{{ asset('images/dashboard.png') }}" alt="Dashboard icon" class="w-5 h-5">
                     </span>
                     <span>Dashboard</span>
                 </a>
@@ -45,7 +45,7 @@
                     class="flex items-center gap-3 rounded-xl px-3 py-2 transition
                     {{ request()->is('admin/products*') ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900' }}">
                     <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
-                        📦
+                        <img src="{{ asset('images/product.png') }}" alt="Product icon" class="w-5 h-5">
                     </span>
                     <span>Products</span>
                 </a>
@@ -54,7 +54,7 @@
                     class="flex items-center gap-3 rounded-xl px-3 py-2 transition
                     {{ request()->is('admin/orders*') ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900' }}">
                     <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
-                        🧾
+                        <img src="{{ asset('images/order-products.png') }}" alt="Product icon" class="w-5 h-5">
                     </span>
                     <span>Orders</span>
                 </a>
