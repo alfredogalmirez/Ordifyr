@@ -91,11 +91,11 @@
                     </div>
                 </div>
 
-                <form method="POST" action="{{ route('checkout.gcash') }}" class="mt-5">
+                <form method="POST" action="{{ route('checkout.pay') }}" class="mt-5">
                     @csrf
                     <button type="submit"
                         class="w-full px-4 py-3 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700">
-                        Pay with GCash
+                        Pay with QRPh
                     </button>
                 </form>
 

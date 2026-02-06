@@ -32,11 +32,12 @@ Route::middleware('auth')->group(function () {
     // Checkout Routes
     Route::post('/checkout', [CheckoutController::class, 'start'])->name('checkout.start');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout/gcash', [CheckoutController::class, 'gcash'])->name('checkout.gcash');
+    Route::post('/checkout/gcash', [CheckoutController::class, 'pay'])->name('checkout.pay');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 
     // Orders Routes
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/{order}/status', function (\App\Models\Order $order) {
         return response()->json([

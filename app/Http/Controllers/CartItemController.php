@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class CartItemController extends Controller
 {
     public function store(Request $request){
-        // dd('HIT', $request->all(), Auth::user()->id);
+
         $validated = $request->validate([
             'product_id' => 'required|exists:products,id'
         ]);

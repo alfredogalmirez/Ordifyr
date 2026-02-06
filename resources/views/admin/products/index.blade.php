@@ -19,17 +19,13 @@
         {{-- Toolbar --}}
         <div class="p-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-white">
             <div class="text-sm text-slate-600">
-                Total products: <span class="font-semibold text-slate-900">{{ $products->total() ?? $products->count() }}</span>
+                Total products: <span
+                    class="font-semibold text-slate-900">{{ $products->total() ?? $products->count() }}</span>
             </div>
 
             <form method="GET" action="{{ url()->current() }}" class="w-full sm:w-auto">
-                <input
-                    type="text"
-                    name="search"
-                    value="{{ request('search') }}"
-                    placeholder="Search product..."
-                    class="w-full sm:w-72 rounded-xl bg-slate-100 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-600/30"
-                />
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search product..."
+                    class="w-full sm:w-72 rounded-xl bg-slate-100 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-600/30" />
             </form>
         </div>
 
@@ -68,15 +64,18 @@
                                 @endphp
 
                                 @if ($stock <= 0)
-                                    <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
                                         Out of stock
                                     </span>
                                 @elseif ($stock < 5)
-                                    <span class="inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
                                         Low stock
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                                         In stock
                                     </span>
                                 @endif
@@ -102,6 +101,9 @@
 
         {{-- Footer / pagination --}}
         <div class="p-5">
+            <div>
+                {{ get_class($products) }}
+            </div>
             @if (method_exists($products, 'links'))
                 {{ $products->withQueryString()->links() }}
             @endif

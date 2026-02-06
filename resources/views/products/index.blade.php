@@ -48,7 +48,7 @@
                             </span>
                         @elseif($product->stock <= 5)
                             <span
-                                class="shrink-0 rounded-full bg-yellow-50 px-2.5 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-200">
+                                class="shrink-0 rounded-full bg-yellow-50 px-2.5 py-1 text-xs font-medium text-yellow-700 ring-1 ring-yellow-200">
                                 Low stock
                             </span>
                         @else

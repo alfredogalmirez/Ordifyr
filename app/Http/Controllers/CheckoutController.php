@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -140,7 +141,7 @@ class CheckoutController extends Controller
         return $order;
     }
 
-    public function gcash(Request $request)
+    public function pay(Request $request)
     {
         $result = $this->createOrderFromCart($request);
 
@@ -157,7 +158,7 @@ class CheckoutController extends Controller
         $payload = [
             'data' => [
                 'attributes' => [
-                    'payment_method_types' => ['gcash'],
+                    'payment_method_types' => ['qrph'],
                     'send_email_receipt' => false,
                     'show_description' => true,
                     'show_line_items' => true,
@@ -183,8 +184,13 @@ class CheckoutController extends Controller
             ->post('https://api.paymongo.com/v1/checkout_sessions', $payload);
 
         if (!$res->successful()) {
+            Log::error('PayMongo checkout session error', [
+                'status' => $res->status(),
+                'body'   => $res->json(),
+            ]);
+
             // Optional: mark order failed, log $res->json()
-            return redirect()->route('checkout.index')->with('error', 'Payment gateway error. Please try again.');
+            return redirect()->route('checkout.index')->with('error', 'Payment gateway error. ' . ($res->json('errors.0.detail') ?? 'Unknown'));
         }
 
         $sessionId = $res['data']['id'] ?? null;
