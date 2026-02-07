@@ -52,10 +52,17 @@ class CartItemController extends Controller
             abort(403, 'Unauthorized action');
         }
 
+        $stock = $cartItem->product->stock;
+
         $validated = $request->validate([
             'quantity' => 'required|integer|min:1'
         ]);
 
+        $qty = $validated['quantity'];
+
+        if($qty > $stock){
+            return back()->with('error', "Only {$stock} are available in stock.");
+        }
 
         $cartItem->update([
             'quantity' => $validated['quantity']

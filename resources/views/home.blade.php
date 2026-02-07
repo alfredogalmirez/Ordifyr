@@ -3,7 +3,7 @@
     <section class="py-24 max-w-3xl">
         <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-6">
             Buy fast.<br>
-            Pay with GCash.<br>
+            Pay online.<br>
             Done.
         </h1>
 
