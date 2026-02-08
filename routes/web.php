@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartItemController;
@@ -18,6 +19,9 @@ Route::get('/', function () {
 
     return view('home', compact('products'));
 });
+
+Route::get('/signup', [SignUpController::class, 'create'])->name('signup.create');
+Route::post('/signup', [SignUpController::class, 'store'])->name('signup.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

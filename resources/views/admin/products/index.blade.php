@@ -101,9 +101,6 @@
 
         {{-- Footer / pagination --}}
         <div class="p-5">
-            <div>
-                {{ get_class($products) }}
-            </div>
             @if (method_exists($products, 'links'))
                 {{ $products->withQueryString()->links() }}
             @endif
