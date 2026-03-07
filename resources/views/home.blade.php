@@ -31,7 +31,7 @@
     {{-- VALUE PROPS --}}
     <section class="grid gap-4 sm:grid-cols-3 pb-20">
         <div class="rounded-2xl border border-slate-200 bg-white p-6">
-            <div class="font-semibold mb-1">GCash only</div>
+            <div class="font-semibold mb-1">QRPh only</div>
             <p class="text-sm text-slate-600">No cards. No setup. Pay and go.</p>
         </div>
 
@@ -118,7 +118,7 @@
             </div>
 
             <div class="rounded-xl bg-slate-50 p-5">
-                <div class="font-semibold mb-1">3) Pay with GCash</div>
+                <div class="font-semibold mb-1">3) Pay with QRPh</div>
                 <p class="text-sm text-slate-600">You’ll be redirected to PayMongo’s secure page.</p>
             </div>
         </div>
